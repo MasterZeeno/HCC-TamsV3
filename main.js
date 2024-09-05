@@ -9,7 +9,7 @@ function removeElements(parent, selector = []) {
   try {
     parent.querySelectorAll(selectorString).forEach((el) => {
       if (el !== parent) {
-        if (!el.id || el.id !== 'important') {  // Skip elements with id 'important'
+        if (!el.id || el.id !== 'important-css' || el.id !== 'important-js') {  // Skip elements with id 'important'
           el.remove()
         }
       }

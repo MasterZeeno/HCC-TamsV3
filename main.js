@@ -1,6 +1,5 @@
-import fonts from './SF-Pro.css?raw'
-import styles from './style.css?raw'
-import logo from '/logo.svg?raw'
+import logo from './logo.svg?raw'
+import 'bootstrap'
 
 function removeElements(parent, selector = []) {
   if (!(parent instanceof HTMLElement || parent instanceof Document)) return
@@ -21,21 +20,16 @@ function removeElements(parent, selector = []) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const title = "TamsV3"
   // Set a dark theme
-  document.documentElement.setAttribute("data-bs-theme", "dark")
-
+  document.documentElement.setAttribute("data-zee-theme", "dark")
+  document.title = title
   // Insert the logo SVG into the 'div.text-center' element
-  const logoContainer = document.querySelector("div.text-center")
-  if (logoContainer) {
-    logoContainer.innerHTML = logo
-  }
-
+  const logoContainer = document.querySelector(".text-center img").parentNode
+  if (logoContainer) logoContainer.innerHTML = logo
+  const loginAnchor = document.querySelector(".login-logo a")
+  if (loginAnchor) loginAnchor.innerHTML = title
+  document.querySelector('input[name="username"]').setAttribute("placeholder", "ID Number")
   // Uncomment this line to remove specified elements
-  removeElements(document, ["link", "style", "script", "div.login-box-msg"])
-
-  Array.from([fonts, styles]).forEach((style) => {
-    const styleElem = document.createElement("style")
-    styleElem.innerHTML = style
-    document.head.appendChild(styleElem)
-  })
+  removeElements(document, ["link", "script", "p.login-box-msg", "span.glyphicon"])
 })

@@ -4,11 +4,16 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "predev": "sass src/base.scss public/assets/styles.css --load-path=node_modules",
     "dev": "vite --open",
+    "prebuild": "sass --style compressed src/base.scss public/assets/styles.css --load-path=node_modules",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "watch:sass": "sass --watch src/base.scss public/assets/styles.css --load-path=node_modules"
   },
   "devDependencies": {
+    "bootstrap": "^5.3.3",
+    "sass": "^1.78.0",
     "vite": "^5.4.1"
   }
 }

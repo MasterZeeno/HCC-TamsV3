@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="logo" aria-hidden="true" role="img">
+  <defs>
+    <radialGradient id="b" cx="2.3%" cy="2.3%" r="69.6%" fx="32.32%" fy="32.32%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0" />
+      <stop offset="100%" stop-color="#fff" stop-opacity=".69" />
+    </radialGradient>
+    <pattern id="a" width="6" height="6" stroke="none" patternTransform="scale(.03)" patternUnits="userSpaceOnUse">
+      <rect width="100%" height="100%" fill="#aaa" />
+      <path fill="#fff" d="M5 0H6L0 6V5zM6 5V6H5z" />
+    </pattern>
+    <filter id="d">
+      <feDiffuseLighting in="SourceGraphic" lighting-color="#fff" result="light">
+        <fePointLight y="-1" z="4" />
+      </feDiffuseLighting>
+      <feComposite in="SourceGraphic" in2="light" k1="2" operator="arithmetic" />
+      <feDropShadow dx=".03" dy=".03" stdDeviation=".03" />
+    </filter>
+    <mask id="c">
+      <rect width="100%" height="100%" fill="url(#a)" />
+      <rect width="100%" height="100%" fill="url(#b)" />
+    </mask>
+  </defs>
+  <g filter="url(#d)" mask="url(#c)">
+    <path class="blue" fill="#00387c" stroke="#00387c" stroke-linecap="round" stroke-linejoin="round"
+      color-rendering="optimizeQuality" shape-rendering="geometricPrecision" vector-effect="non-scaling-stroke"
+      d="M7.42 9.3H6.22C5.3 9.35 4.76 9.5 4.7 11.07V15.07C.77 15.07.77 15.07.77 13.28V2.59C.77.79.77.79 4.7.79V4.79C4.7 6.24 5.3 6.5 6.21 6.55H9.63C10.55 6.49 11.13 6.25 11.13 4.78V.8C15.1.79 15.08.79 15.08 2.58V13.28C15.07 15.09 15.1 15.09 11.14 15.09V11.07C11.14 9.5 10.54 9.35 9.63 9.3ZM7.42 9.3" />
+    <path class="red" fill="#cd0000" stroke="#cd0000" stroke-linecap="round" stroke-linejoin="round"
+      color-rendering="optimizeQuality" shape-rendering="geometricPrecision" vector-effect="non-scaling-stroke"
+      d="M7.92 3.7C7.42 3.7 7.42 2.92 7.94 2.92H10.42V1.9C10.42 1.54 10.42.77 9.71.77L6.3.79C5.43.79 5.43 1.5 5.43 1.86V4.72C5.42 5.08 5.42 5.85 6.32 5.85L9.7 5.86C10.42 5.86 10.42 5.1 10.42 4.73V3.69ZM7.93 12.9C7.43 12.9 7.43 12.16 7.95 12.16H10.43V11.1C10.43 10.75 10.43 9.98 9.7 9.98L6.32 10C5.42 10 5.42 10.72 5.42 11.07V13.93C5.43 14.29 5.43 15.06 6.33 15.06L9.71 15.07C10.43 15.07 10.43 14.3 10.43 13.94V12.9ZM7.93 12.9" />
+  </g>
+</svg>

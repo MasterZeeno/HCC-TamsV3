@@ -18,6 +18,8 @@ export default defineConfig({
         }
       }
     },
-    minify: 'terser'
+    minify: 'esbuild',
+    cssMinify: 'esbuild',
+    sourcemap: 'hidden'
   }
 })

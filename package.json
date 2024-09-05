@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "predev": "sass src/base.scss public/assets/styles.css --load-path=node_modules",
+    "predev": "sass src/base.scss public/assets/styles.min.css --load-path=node_modules",
     "dev": "vite --open",
-    "prebuild": "sass --style compressed src/base.scss public/assets/styles.css --load-path=node_modules",
+    "prebuild": "sass --style compressed src/base.scss public/assets/styles.min.css --load-path=node_modules",
     "build": "vite build",
     "preview": "vite preview",
     "watch:sass": "sass --watch src/base.scss public/assets/styles.css --load-path=node_modules"

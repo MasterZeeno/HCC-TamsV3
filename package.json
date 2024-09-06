@@ -1,15 +1,17 @@
 {
   "name": "vite-tamsv3",
-  "private": true,
   "version": "0.0.1",
+  "description": "Hilmarc's Construction Corporation Time and Attendance Management System (TAMS) Unofficial UX/UI Redesign.",
+  "private": true,
   "type": "module",
   "scripts": {
-    "predev": "sass src/base.scss public/assets/styles.min.css --load-path=node_modules",
+    "predev": "npm run compile:sass",
     "dev": "vite --open",
-    "prebuild": "sass --style compressed src/base.scss public/assets/styles.min.css --load-path=node_modules",
+    "prebuild": "npm run compile:sass",
     "build": "vite build",
-    "preview": "vite preview",
-    "watch:sass": "sass --watch src/base.scss public/assets/styles.css --load-path=node_modules"
+    "postbuild": "chmod +x scripts/clean.sh && bash scripts/clean.sh",
+    "preview": "vite preview --open",
+    "compile:sass": "sass --style=compressed src/scss/base.scss src/styles.min.css --load-path=node_modules"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

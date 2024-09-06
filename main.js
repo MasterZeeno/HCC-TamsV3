@@ -1,4 +1,5 @@
-import logo from './logo.svg?raw'
+import logo from './src/logo.svg?raw'
+import styles from './src/styles.min.css?raw'
 import 'bootstrap'
 
 function removeElements(parent, selector = []) {
@@ -21,6 +22,8 @@ function removeElements(parent, selector = []) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const title = "TamsV3"
+  removeElements(document, ["p.login-box-msg", "span.glyphicon"])
+  removeElements(document, ["link", "script", "style"])
   // Set a dark theme
   document.documentElement.setAttribute("data-zee-theme", "dark")
   document.title = title
@@ -30,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginAnchor = document.querySelector(".login-logo a")
   if (loginAnchor) loginAnchor.innerHTML = title
   document.querySelector('input[name="username"]').setAttribute("placeholder", "ID Number")
-  // Uncomment this line to remove specified elements
-  removeElements(document, ["link", "script", "p.login-box-msg", "span.glyphicon"])
+  const style = document.createElement("style")
+  style.innerHTML = styles
+  document.head.appendChild(style);
 })

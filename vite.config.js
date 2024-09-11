@@ -4,12 +4,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        entryFileNames: 'assets/[name].[ext]',
-        chunkFileNames: 'assets/[name]-[hash].[ext]',
-        assetFileNames: 'assets/[name].[ext]'
+        manualChunks: () => 'index.min.js',
+        entryFileNames: 'assets/index.min.js'
       }
     },
     minify: 'esbuild',
-    cssMinify: 'esbuild'
+    cssCodeSplit: false,
+    chunkSizeWarningLimit: 999
   }
 })

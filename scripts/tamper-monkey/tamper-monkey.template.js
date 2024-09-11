@@ -11,5 +11,3 @@
 
 (function() {
   'use strict';
-  {{content}}
-})();

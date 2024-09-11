@@ -3,17 +3,23 @@
 # Function to uncomment the content of a file
 clean_file_contents() {
   local file="$1"
+  local scriptPath="$(dirname "$(realpath "$0")")"
   local ext="${file##*.}"
-  local dest="tamper-monkey"
+  local dest="${scriptPath}/tamper-monkey"
   local template="${dest}/tamper-monkey.template.js"
-  local toReplace="{{content}}"
   local output="${dest}/tams/${file##*/}"
   output="${output%.*}.user.${ext}"
+  
+  mkdir -p "${dest}/tams"
+  
   # Clean the file contents (remove comments and unnecessary newlines)
-  local cleaned="$(cat "$file" | perl -0777 -pe 's{/\*.*?\*/}{}gs; s/^\s*\n//gm')"
-  # Replace the placeholder in the template with the cleaned content and save it to $output
-  sed "s|$toReplace|$cleaned|" "$template" > "$output"
-  echo "Processed file saved to: $output"
+  {
+    cat "$template"
+    echo -ne "\t$(cat "$file" | perl -0777 -pe 's{/\*.*?\*/}{}gs; s/^\s*\n//gm')"
+    echo -e "\n})();"
+  } > "$output"
+  
+  echo "Processed file saved to: $(basename "$output")"
 }
 
 # Function to find and process target files in a directory recursively
@@ -26,7 +32,7 @@ process_directory() {
 }
 
 # If no arguments are passed, use "dist/assets" as the default directory
-[[ $# -eq 0 ]] && filePath=("dist/assets") || filePath=("$@")
+filePath=("${@:-dist/assets}")
 
 # Loop through all arguments
 for path in "${filePath[@]}"; do
@@ -35,6 +41,6 @@ for path in "${filePath[@]}"; do
   elif [[ -d "$path" ]]; then
     process_directory "$path"
   else
-    echo "Warning: '$arg' is not a valid file or directory. Skipping."
+    echo "Warning: '$path' is not a valid file or directory. Skipping."
   fi
 done

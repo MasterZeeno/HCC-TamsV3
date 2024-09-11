@@ -9,9 +9,10 @@
     "dev": "vite --open",
     "prebuild": "npm run compile:sass",
     "build": "vite build",
-    "postbuild": "chmod +x scripts/clean.sh && bash scripts/clean.sh",
+    "postbuild": "npm run clean",
     "preview": "vite preview --open",
-    "compile:sass": "sass --style=compressed src/scss/base.scss src/styles.min.css --load-path=node_modules"
+    "clean": "chmod +x scripts/clean.sh && bash scripts/clean.sh",
+    "compile:sass": "sass --style=compressed src/scss/base.scss src/styles.min.css --load-path=node_modules --no-source-map -q"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

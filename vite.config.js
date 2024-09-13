@@ -7,15 +7,17 @@ const packageName = packageJson.name.split('/').pop() || packageJson.name
 
 export default defineConfig({
   build: {
+    modulePreload: {
+      polyfill: false
+    },
     lib: {
-      entry: resolve(__dirname, 'src', `${packageName}.js`),
+      entry: resolve(__dirname, 'src', 'index.js'),
       formats: ['iife'],
       name: camelCase(packageName, {
         pascalCase: true
       }),
       fileName: packageName
     },
-    minify: 'esbuild',
     chunkSizeWarningLimit: 999
   }
 })

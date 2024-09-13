@@ -1,5 +1,5 @@
 {
-  "name": "vite-tamsv3",
+  "name": "tamsv3",
   "version": "0.0.1",
   "description": "Hilmarc's Construction Corporation Time and Attendance Management System (TAMS) Unofficial UX/UI Redesign.",
   "private": true,
@@ -15,7 +15,8 @@
     "exec": "bash scripts/exec.sh",
     "clean": "npm run exec -- clean",
     "style": "npm run exec -- style",
-    "style:mini": "npm run exec -- style --style=compressed"
+    "style:mini": "npm run exec -- style --style=compressed",
+    "push:github": "npm version patch -m \"chore: bump version to %s\" && git push && git push --tags"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

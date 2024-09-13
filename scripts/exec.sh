@@ -3,6 +3,12 @@
 [ "$#" -gt 0 ] || \
 { echo "Specify a script to run." \
     && exit 1; }
+sanitize_string() {
+  local input="$1"
+  local no_newlines="${input//$'\n'/ }"
+  local sanitized="${no_newlines//  / }"
+  echo "$sanitized"
+}
 
 runClean() {
     clean_file_contents() {
@@ -12,7 +18,7 @@ runClean() {
 
         {
             cat "$template"
-            printf '%s ' "$(cat "$file")" | perl -0777 -pe 's{/\*.*?\*/}{}gs; s/^\s*\n//gm'
+            echo "$(sanitize_string "$(cat "$file" | perl -0777 -pe 's{/\*.*?\*/}{}gs; s/^\s*\n//gm')")"
         } > "$newFilename"
 
         rm -f "$file"

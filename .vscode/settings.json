@@ -10,5 +10,6 @@
         "preexec",
         "tamsv",
         "Zeeno"
-    ]
+    ],
+    "editor.tabSize": 2
 }

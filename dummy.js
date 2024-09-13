@@ -1,5 +1,5 @@
-import logo from './src/logo.svg?raw'
-import styles from './src/styles.min.css?raw'
+import logo from './src/assets/logo.svg?raw'
+import styles from './src/assets/styles.css?raw'
 
 document.addEventListener("DOMContentLoaded", () => {
   const bootstrapInit = async () => {

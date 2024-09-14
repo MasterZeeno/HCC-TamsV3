@@ -1,0 +1,51 @@
+@import "helpers/zee-overrides";
+
+.login-box {
+  width: 280px !important;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  background-color: rgba(var(--#{$prefix}secondary-color-rgb), 0.069) !important;
+  box-shadow: var(--#{$prefix}box-shadow) !important;
+  border-radius: 0.96rem !important;
+  back-drop: blur(3rem);
+}
+
+div.login-box div.text-center {
+  width: 30%;
+  margin: 0 auto 0.32rem;
+}
+
+#logo {
+  filter: var(--#{$prefix}drop-shadow-filter);
+  shape-rendering: geometricPrecision;
+}
+
+button,
+input {
+  border-radius: 1.96rem !important;
+}
+
+input {
+  margin: 0.32rem auto !important;
+  padding: 0.69rem 1.32rem !important;
+}
+
+button {
+  margin: 0.96rem auto !important;
+  padding: 0.5rem 1.32rem !important;
+}
+
+.form-control::placeholder {
+  opacity: 0.69 !important;
+}
+
+div.login-box div.login-logo a,
+.register-logo a {
+  font-weight: 900;
+  font-size: 2rem;
+  margin: 0 auto 0.32rem;
+  color: var(--#{$prefix}heading-color);
+}

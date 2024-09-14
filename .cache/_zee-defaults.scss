@@ -1,0 +1,236 @@
+//	_zee-defaults.scss	Thu, August 22, 2024 at 3:27 PM	***
+
+$enable-gradients: true;
+$enable-shadows: true;
+$enable-dark-mode: true;
+$rfs-safari-iframe-resize-bug-fix: true;
+
+$variable-prefix: zee-;
+$prefix: zee-;
+
+// scss-docs-start primary-color-variables
+$primary: #00386C;		// Midnight Blue
+$primary-100: tint-color($primary, 80%);
+$primary-200: tint-color($primary, 60%);
+$primary-300: tint-color($primary, 40%);
+$primary-400: tint-color($primary, 20%);
+$primary-500: $primary;
+$primary-600: shade-color($primary, 20%);
+$primary-700: shade-color($primary, 40%);
+$primary-800: shade-color($primary, 60%);
+$primary-900: shade-color($primary, 80%);
+// scss-docs-end primary-color-variables
+
+// scss-docs-start primary-variant-color-variables
+$primary-variant: #0068A5;		// Matisse
+$primary-variant-100: tint-color($primary-variant, 80%);
+$primary-variant-200: tint-color($primary-variant, 60%);
+$primary-variant-300: tint-color($primary-variant, 40%);
+$primary-variant-400: tint-color($primary-variant, 20%);
+$primary-variant-500: $primary-variant;
+$primary-variant-600: shade-color($primary-variant, 20%);
+$primary-variant-700: shade-color($primary-variant, 40%);
+$primary-variant-800: shade-color($primary-variant, 60%);
+$primary-variant-900: shade-color($primary-variant, 80%);
+// scss-docs-end primary-variant-color-variables
+
+// scss-docs-start primary-dark-color-variables
+$primary-dark: #0687FF;		// Azure Radiance
+$primary-dark-100: tint-color($primary-dark, 80%);
+$primary-dark-200: tint-color($primary-dark, 60%);
+$primary-dark-300: tint-color($primary-dark, 40%);
+$primary-dark-400: tint-color($primary-dark, 20%);
+$primary-dark-500: $primary-dark;
+$primary-dark-600: shade-color($primary-dark, 20%);
+$primary-dark-700: shade-color($primary-dark, 40%);
+$primary-dark-800: shade-color($primary-dark, 60%);
+$primary-dark-900: shade-color($primary-dark, 80%);
+// scss-docs-end primary-dark-color-variables
+
+// scss-docs-start primary-variant-dark-color-variables
+$primary-variant-dark: #00C8FF;		// Malibu
+$primary-variant-dark-100: tint-color($primary-variant-dark, 80%);
+$primary-variant-dark-200: tint-color($primary-variant-dark, 60%);
+$primary-variant-dark-300: tint-color($primary-variant-dark, 40%);
+$primary-variant-dark-400: tint-color($primary-variant-dark, 20%);
+$primary-variant-dark-500: $primary-variant-dark;
+$primary-variant-dark-600: shade-color($primary-variant-dark, 20%);
+$primary-variant-dark-700: shade-color($primary-variant-dark, 40%);
+$primary-variant-dark-800: shade-color($primary-variant-dark, 60%);
+$primary-variant-dark-900: shade-color($primary-variant-dark, 80%);
+// scss-docs-end primary-variant-dark-color-variables
+
+// scss-docs-start alternate-color-variables
+$alternate: #CD0000;		// Thunderbird
+$alternate-100: tint-color($alternate, 80%);
+$alternate-200: tint-color($alternate, 60%);
+$alternate-300: tint-color($alternate, 40%);
+$alternate-400: tint-color($alternate, 20%);
+$alternate-500: $alternate;
+$alternate-600: shade-color($alternate, 20%);
+$alternate-700: shade-color($alternate, 40%);
+$alternate-800: shade-color($alternate, 60%);
+$alternate-900: shade-color($alternate, 80%);
+// scss-docs-end alternate-color-variables
+
+// scss-docs-start alternate-variant-color-variables
+$alternate-variant: #FF4D4D;		// Coral Red
+$alternate-variant-100: tint-color($alternate-variant, 80%);
+$alternate-variant-200: tint-color($alternate-variant, 60%);
+$alternate-variant-300: tint-color($alternate-variant, 40%);
+$alternate-variant-400: tint-color($alternate-variant, 20%);
+$alternate-variant-500: $alternate-variant;
+$alternate-variant-600: shade-color($alternate-variant, 20%);
+$alternate-variant-700: shade-color($alternate-variant, 40%);
+$alternate-variant-800: shade-color($alternate-variant, 60%);
+$alternate-variant-900: shade-color($alternate-variant, 80%);
+// scss-docs-end alternate-variant-color-variables
+
+// scss-docs-start alternate-dark-color-variables
+$alternate-dark: #FF0101;		// Red
+$alternate-dark-100: tint-color($alternate-dark, 80%);
+$alternate-dark-200: tint-color($alternate-dark, 60%);
+$alternate-dark-300: tint-color($alternate-dark, 40%);
+$alternate-dark-400: tint-color($alternate-dark, 20%);
+$alternate-dark-500: $alternate-dark;
+$alternate-dark-600: shade-color($alternate-dark, 20%);
+$alternate-dark-700: shade-color($alternate-dark, 40%);
+$alternate-dark-800: shade-color($alternate-dark, 60%);
+$alternate-dark-900: shade-color($alternate-dark, 80%);
+// scss-docs-end alternate-dark-color-variables
+
+// scss-docs-start alternate-variant-dark-color-variables
+$alternate-variant-dark: #FF7A7A;		// Geraldine
+$alternate-variant-dark-100: tint-color($alternate-variant-dark, 80%);
+$alternate-variant-dark-200: tint-color($alternate-variant-dark, 60%);
+$alternate-variant-dark-300: tint-color($alternate-variant-dark, 40%);
+$alternate-variant-dark-400: tint-color($alternate-variant-dark, 20%);
+$alternate-variant-dark-500: $alternate-variant-dark;
+$alternate-variant-dark-600: shade-color($alternate-variant-dark, 20%);
+$alternate-variant-dark-700: shade-color($alternate-variant-dark, 40%);
+$alternate-variant-dark-800: shade-color($alternate-variant-dark, 60%);
+$alternate-variant-dark-900: shade-color($alternate-variant-dark, 80%);
+// scss-docs-end alternate-variant-dark-color-variables
+
+$min-contrast-ratio: 4.5;
+$white: #fff;
+$black: #000;
+$color-contrast-dark: shade-color($primary-variant, 69%);
+$color-contrast-light: tint-color($primary-variant, 96%);
+
+$light: $color-contrast-light;
+$dark: $color-contrast-dark;
+$light-variant: shade-color($color-contrast-light, 9.6%);
+$dark-variant: tint-color($color-contrast-dark, 9.6%);
+
+$light-theme-colors: (
+	"primary": $primary,
+	"primary-100": $primary-100,
+	"primary-200": $primary-200,
+	"primary-300": $primary-300,
+	"primary-400": $primary-400,
+	"primary-500": $primary-500,
+	"primary-600": $primary-600,
+	"primary-700": $primary-700,
+	"primary-800": $primary-800,
+	"primary-900": $primary-900,
+	"primary-variant": $primary-variant,
+	"primary-variant-100": $primary-variant-100,
+	"primary-variant-200": $primary-variant-200,
+	"primary-variant-300": $primary-variant-300,
+	"primary-variant-400": $primary-variant-400,
+	"primary-variant-500": $primary-variant-500,
+	"primary-variant-600": $primary-variant-600,
+	"primary-variant-700": $primary-variant-700,
+	"primary-variant-800": $primary-variant-800,
+	"primary-variant-900": $primary-variant-900,
+	"alternate": $alternate,
+	"alternate-100": $alternate-100,
+	"alternate-200": $alternate-200,
+	"alternate-300": $alternate-300,
+	"alternate-400": $alternate-400,
+	"alternate-500": $alternate-500,
+	"alternate-600": $alternate-600,
+	"alternate-700": $alternate-700,
+	"alternate-800": $alternate-800,
+	"alternate-900": $alternate-900,
+	"alternate-variant": $alternate-variant,
+	"alternate-variant-100": $alternate-variant-100,
+	"alternate-variant-200": $alternate-variant-200,
+	"alternate-variant-300": $alternate-variant-300,
+	"alternate-variant-400": $alternate-variant-400,
+	"alternate-variant-500": $alternate-variant-500,
+	"alternate-variant-600": $alternate-variant-600,
+	"alternate-variant-700": $alternate-variant-700,
+	"alternate-variant-800": $alternate-variant-800,
+	"alternate-variant-900": $alternate-variant-900,
+	"light": $light,
+	"light-variant": $light-variant,
+	"dark": $dark,
+	"dark-variant": $dark-variant
+);
+
+$dark-theme-colors: (
+	"primary": $primary-dark,
+	"primary-100": $primary-dark-100,
+	"primary-200": $primary-dark-200,
+	"primary-300": $primary-dark-300,
+	"primary-400": $primary-dark-400,
+	"primary-500": $primary-dark-500,
+	"primary-600": $primary-dark-600,
+	"primary-700": $primary-dark-700,
+	"primary-800": $primary-dark-800,
+	"primary-900": $primary-dark-900,
+	"primary-variant": $primary-variant-dark,
+	"primary-variant-100": $primary-variant-dark-100,
+	"primary-variant-200": $primary-variant-dark-200,
+	"primary-variant-300": $primary-variant-dark-300,
+	"primary-variant-400": $primary-variant-dark-400,
+	"primary-variant-500": $primary-variant-dark-500,
+	"primary-variant-600": $primary-variant-dark-600,
+	"primary-variant-700": $primary-variant-dark-700,
+	"primary-variant-800": $primary-variant-dark-800,
+	"primary-variant-900": $primary-variant-dark-900,
+	"alternate": $alternate-dark,
+	"alternate-100": $alternate-dark-100,
+	"alternate-200": $alternate-dark-200,
+	"alternate-300": $alternate-dark-300,
+	"alternate-400": $alternate-dark-400,
+	"alternate-500": $alternate-dark-500,
+	"alternate-600": $alternate-dark-600,
+	"alternate-700": $alternate-dark-700,
+	"alternate-800": $alternate-dark-800,
+	"alternate-900": $alternate-dark-900,
+	"alternate-variant": $alternate-variant-dark,
+	"alternate-variant-100": $alternate-variant-dark-100,
+	"alternate-variant-200": $alternate-variant-dark-200,
+	"alternate-variant-300": $alternate-variant-dark-300,
+	"alternate-variant-400": $alternate-variant-dark-400,
+	"alternate-variant-500": $alternate-variant-dark-500,
+	"alternate-variant-600": $alternate-variant-dark-600,
+	"alternate-variant-700": $alternate-variant-dark-700,
+	"alternate-variant-800": $alternate-variant-dark-800,
+	"alternate-variant-900": $alternate-variant-dark-900,
+);
+
+$light-theme-colors-rgb: map-loop($light-theme-colors, to-rgb, "$value");
+$dark-theme-colors-rgb: map-loop($dark-theme-colors, to-rgb, "$value");
+
+$gradient: linear-gradient(123deg, var(--#{$prefix}primary-variant) 0%, var(--#{$prefix}primary) 32%);
+$zee-translucent-gradient-color: -138deg, rgba(var(--#{$prefix}primary-rgb), .23) 0%, transparent 30%, transparent 50%, rgba(var(--#{$prefix}alternate-rgb), .23) 100%;
+
+$body-color: $color-contrast-dark;
+$body-bg: $color-contrast-light;
+$body-color-dark: $color-contrast-light;
+$body-bg-dark: $color-contrast-dark;
+
+$headings-color: $primary;
+$headings-color-dark: $white;
+
+$mark-bg: $primary-variant;
+$mark-color: color-contrast($mark-bg);
+$mark-bg-dark: $primary-variant-dark;
+$mark-color-dark: color-contrast($mark-bg-dark);
+
+$border-width: 0.69px;
+$link-decoration: none;

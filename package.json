@@ -15,7 +15,7 @@
     "clean": "./exec.sh clean",
     "style": "./exec.sh style",
     "style:mini": "./exec.sh style:minify",
-    "push:github": "npm version patch -m \"🏡chore: bump version to %s\" && git push && git push --tags"
+    "push:github": "git add . && aic2 -a -y"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

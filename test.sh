@@ -81,17 +81,7 @@ updateMsg() {
 }
 
 findFiles() {
-  local args=("$@")
-  local root_dir="."
-  
-  # Parse arguments for --root option
-  for arg in "${args[@]}"; do
-    case "$arg" in
-      --root=*) root_dir="${arg#--root=}" ;;
-    esac
-  done
-  
-  local find_cmd="find $root_dir -type f"
+  local find_cmd="find . -type f"
   
   # Exclude directories and files from search
   find_cmd+=" -not -path './node_modules/*' -not -path './.git/*' -not -path './.cache/*'"

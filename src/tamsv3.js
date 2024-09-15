@@ -25,6 +25,7 @@ removeElements(document, ["p.login-box-msg", "span.glyphicon"])
 removeElements(document, ["link", "script", "style"])
 
 document.documentElement.setAttribute("data-zee-theme", "dark")
+document.documentElement.setAttribute("style", "background-color: white;")
 document.title = title
 
 const logoContainer = document.querySelector(".text-center img")?.parentNode

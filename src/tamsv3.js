@@ -1,6 +1,16 @@
 import logo from './assets/logo.svg?raw'
 import styles from './assets/style.css?raw'
 
+window.addEventListener('load', function() {
+  if (document.body) {
+    const originalDisplay = window.getComputedStyle(document.body).display
+    document.body.style.display = 'none'
+    setTimeout(() => {
+      document.body.style.display = originalDisplay || 'block'
+    }, 600)
+  }
+}, false)
+
 const title = "TamsV3"
 
 const removeElements = (parent, selector = []) => {
@@ -26,7 +36,6 @@ removeElements(document, ["link", "script", "style"])
 
 document.documentElement.setAttribute("data-zee-theme", "dark")
 document.documentElement.setAttribute("style", "background-color: white;")
-document.body.setAttribute("style", "opacity: 0;")
 document.title = title
 
 const logoContainer = document.querySelector(".text-center img")?.parentNode
@@ -49,4 +58,3 @@ style.innerHTML = styles
 document.head.appendChild(style)
 
 import("bootstrap").then(module => module())
-document.body.setAttribute("style", "opacity: 1;")

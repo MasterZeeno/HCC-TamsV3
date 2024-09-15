@@ -2,7 +2,7 @@
 // @name                HCC-TamsV3
 // @namespace          https://github.com/MasterZeeno
 // @version              v0.0.2
-// @description          Hilmarc's Construction Corporation Time and Attendance Management System (TAMS) Unofficial UX/UI Redesign.
+// @description          A TamperMonkey Userscript to change TamsV2's boring UI. 🥱
 // @author              MasterZeeno
 // @match              https://hcc-tams.com.ph/tams*
 // @run-at              document-start

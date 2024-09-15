@@ -7,26 +7,21 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    name: release
     permissions:
       contents: write
       packages: write
       issues: write
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '22.8.0'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run semantic-release
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release

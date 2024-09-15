@@ -90,7 +90,7 @@ runClean() {
       generateUserScript
       sanitizeAndClean "$file"
     } > "$outputFile"
-    echo "$outputFile: ready to be published!"
+    rm -rf "$file" && echo " $outputFile: ready to be published!"
   done
 }
 runStyle() {
@@ -99,7 +99,7 @@ runStyle() {
     local minifyFlag="--style=compressed"
     [ "$1" = "m" ] || minifyFlag=""
     sass --load-path=node_modules --no-source-map -q $minifyFlag src/scss:src/assets
-    echo "Successfully compiled scss files to css!"
+    echo " Successfully compiled scss files to css!"
   fi
 }
 case "$1" in

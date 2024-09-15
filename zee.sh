@@ -1,22 +1,4 @@
 #!/usr/bin/env bash
-getDateTime() {
-  local formatOption="${1:-r}"
-  local dateInput="${2:-now}"
-  local unformattedFormat="%Y-%m-%d %H:%M:%S"
-  local formattedFormat="%a, %b %d, %Y %H:%M:%S"
-  local -a dateArgs
-  if [[ $OSTYPE == "darwin"* ]]; then
-    dateArgs=(date -j -f "$unformattedFormat" "$dateInput")
-  else
-    dateArgs=(date -d "$dateInput")
-  fi
-  case "$formatOption" in
-    t) dateArgs+=(+%s) ;;
-    f) dateArgs+=(+"$formattedFormat") ;;
-    r | *) dateArgs+=(+"$unformattedFormat") ;;
-  esac
-  eval "${dateArgs[*]}"
-}
 sanitizeAndClean() {
   local input="$1"
   local perl_cmd='perl -0777 -pe "
@@ -34,6 +16,7 @@ sanitizeAndClean() {
   fi
 }
 pkgJsonParser() {
+  local pkgJson="package.json"
   local field="${1%%.*}"
   local subField="${1##*.}"
   local -A subFields=(["name"]="0" ["email"]="1" ["url"]="2")
@@ -75,22 +58,6 @@ generateUserScript() {
 // @run-at              document-start
 // ==/UserScript=="
 }
-updatePkgVersion() {
-  local arg="${1#*:}"
-  local current_version=$(pkgJsonParser "version")
-  IFS='.' read -r major minor patch <<< "${current_version#v}"
-  case "$arg" in
-    M) $((major++)) ;;
-    m) $((minor++)) ;;
-    p|*) $((patch++)) ;;
-  esac
-  local new_version="v$major.$minor.$patch"
-  if command -v jq > /dev/null 2>&1; then
-    jq --arg new_version "$new_version" '.version = $new_version' "$pkgJson" | tee "$pkgJson" > /dev/null
-  else
-    sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$new_version\"/" "$p"
-  fi
-}
 commitAndPush() {
   local modFiles=()
   local default_length=169
@@ -117,7 +84,7 @@ commitAndPush() {
       metadata+="\nChanges in $file:\n\n$truncated_diff\n"
     fi
   done
-  git add . && git commit -m "$metadata" && git push -q
+  git add . && git commit -m "$(echo -e "$metadata")" && git push -q
 }
 runClean() {
   local dist=("${@:-dist}")
@@ -139,9 +106,8 @@ runStyle() {
     echo "Successfully compiled scss files to css!"
   fi
 }
-pkgJson="package.json"
-case "${npm_lifecycle_event}" in
-  style*) runStyle "$npm_lifecycle_event" ;;
+case "$1" in
+  style*) runStyle "$1" ;;
   clean) runClean ;;
-  push*) updatePkgVersion "$npm_lifecycle_event" && runClean && commitAndPush ;;
+  push*) runClean && commitAndPush ;;
 esac

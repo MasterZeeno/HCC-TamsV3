@@ -24,7 +24,8 @@
     "preview": "vite preview --open",
     "clean": "./exec.sh",
     "style": "./exec.sh",
-    "style:mini": "./exec.sh"
+    "style:mini": "./exec.sh",
+    "push:github": "git push"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

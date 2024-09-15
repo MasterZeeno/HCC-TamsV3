@@ -179,7 +179,7 @@ updateCommitMessage() {
   done
   echo -e "$metadata" >"$commitFile"
   git add .
-  git commit -F "$commitFile"
+  git commit -q -F "$commitFile"
 }
 getFiles() {
   baseCmd="git diff --name-only"

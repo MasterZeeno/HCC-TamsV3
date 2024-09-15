@@ -12,7 +12,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git://github.com/MasterZeeno/vite-tamsv3.git"
+    "url": "git://github.com/MasterZeeno/HCC-TamsV3.git"
   },
   "main": "./dist/hcc-tamsv3.user.js",
   "files": [

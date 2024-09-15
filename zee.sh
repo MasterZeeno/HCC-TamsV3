@@ -84,7 +84,7 @@ commitAndPush() {
       metadata+="\nChanges in $file:\n\n$truncated_diff\n"
     fi
   done
-  git add . && git commit -m "$(echo -e "$metadata")" && git push -q
+  git add . && git commit -q -m "$(echo -e "$metadata")" && git push -q
 }
 runClean() {
   local dist=("${@:-dist}")

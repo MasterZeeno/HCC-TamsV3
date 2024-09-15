@@ -20,6 +20,7 @@
     "src"
   ],
   "scripts": {
+    "prepare": "husky",
     "dev": "vite --open",
     "prebuild": "./zee.sh style:m",
     "build": "vite build",
@@ -27,8 +28,11 @@
     "preview": "vite preview --open"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "bootstrap": "^5.3.3",
     "camelcase": "^8.0.0",
+    "husky": "^9.1.6",
     "sass": "^1.78.0",
     "semantic-release": "^24.1.1",
     "vite": "^5.4.1"

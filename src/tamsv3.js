@@ -70,7 +70,7 @@ window.addEventListener('load', () => {
     document.title = title;
 
     // Update content of specific elements
-    updateElement(".text-center img", logo, "innerHTML");
+    updateElement(".text-center", logo, "innerHTML");
     updateElement(".login-logo a", title);
     updateElement('input[name="username"]', "ID Number", "placeholder");
 

@@ -62,7 +62,7 @@ commitAndPush() {
   local default_length=169
   local gitFiles=$(git diff --name-status)
   local metadata="Repository updates ✨\n\n"
-  metadata+="Author: $(pkgJsonParser "author.name") 🤴\n"
+  metadata+="Author: $(pkgJsonParser "author.name") 🤴 ($(pkgJsonParser "author.name"))\n"
   metadata+="Date: $(git log -1 --format="%ci" | sed 's/ /T/') (PHT) 🕓\n"
   populate() {
     local str="$1"

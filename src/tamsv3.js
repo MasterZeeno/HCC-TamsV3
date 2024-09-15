@@ -61,30 +61,19 @@ const removeElements = (parent, selector = []) => {
 
 // Load event handler for DOM modifications
 window.addEventListener('load', () => {
-  if (document.body) {
-    stopLoadingTags(["link", "script"]); // Stop <link> and <script> loading
-
-    // Set initial styles and attributes
-    document.body.style.opacity = '0';
-    document.documentElement.setAttribute("data-zee-theme", "dark");
-    document.title = title;
-
-    // Update content of specific elements
-    updateElement(".text-center", logo, "innerHTML");
-    updateElement(".login-logo a", title);
-    updateElement('input[name="username"]', "ID Number", "placeholder");
-
-    // Inject styles into the document head
-    addStyleToHead(styles);
-
-    // Restore opacity after styling is applied
-    document.body.style.transition = 'opacity 0.5s';
-    setTimeout(() => {
-      document.body.style.opacity = '1';
-    }, 600);
-  }
+  stopLoadingTags(["link", "script"]);
 }, false);
 
+document.documentElement.setAttribute("data-zee-theme", "dark");
+document.title = title;
+
+// Update content of specific elements
+updateElement(".text-center", logo, "innerHTML");
+updateElement(".login-logo a", title);
+updateElement('input[name="username"]', "ID Number", "placeholder");
+
+// Inject styles into the document head
+addStyleToHead(styles);
 // Remove unnecessary elements
 removeElements(document, ["p.login-box-msg", "span.glyphicon"]);
 

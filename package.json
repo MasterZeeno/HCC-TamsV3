@@ -16,7 +16,6 @@
   },
   "scripts": {
     "prepare": "([ -x exec.sh ] || chmod +x exec.sh) && ./exec.sh",
-    "predev": "npm run style",
     "dev": "vite --open",
     "prebuild": "npm run style:mini",
     "build": "vite build",
@@ -25,7 +24,8 @@
     "clean": "./exec.sh",
     "style": "./exec.sh",
     "style:mini": "./exec.sh",
-    "push:github": "git push"
+    "push:github": "git push",
+    "zee": "./exec.sh"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

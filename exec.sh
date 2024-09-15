@@ -177,9 +177,9 @@ updateCommitMessage() {
       metadata+="\nChanges in $file:\n\n$truncated_diff\n"
     fi
   done
-  echo -e "$metadata" >"$commitFile"
+  # echo -e "$metadata" >"$commitFile"
   git add .
-  git commit -q -F "$commitFile"
+  git commit -q -m "$metadata"
 }
 getFiles() {
   baseCmd="git diff --name-only"
@@ -192,8 +192,8 @@ getFiles() {
 inArray() {
   [[ " ${@:2} " =~ " $1 " ]]
 }
-commitFile=".git/COMMIT_EDITMSG"
-[ -f "$commitFile" ] || git init
+# commitFile=".git/COMMIT_EDITMSG"
+# [ -f "$commitFile" ] || git init
 case "$npm_lifecycle_event" in
 clean) runClean && updateCommitMessage ;;
 style*) runStyle "$npm_lifecycle_event" ;;

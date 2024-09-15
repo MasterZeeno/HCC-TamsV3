@@ -63,14 +63,14 @@ commitAndPush() {
   local gitFiles=$(git diff --name-status)
   local metadata="Repository updates ✨\n\n"
   metadata+="Commit by:\t$(pkgJsonParser "author.name") 🤴\n"
-  metadata+="Date:\t$(git log -1 --format="%ci" | sed 's/ /T/')\n\n"
+  metadata+="Date:\t$(git log -1 --format="%ci" | sed 's/ /T/')\n"
   populate() {
     local str="$1"
     local -a fileList=$(echo "$gitFiles" | grep "^${str:0:1}" | cut -f2)
     if [ -n "${fileList[@]}" ]; then
-      metadata+="$str:\n"
-      for file in "${fileList[@]}"; do
-        metadata+=" - $file"
+      metadata+="\n$str:\n"
+      for file in $(printf '%s\n' "${fileList[@]}"); do
+        metadata+=" - $file\n"
       done
     fi
   }
@@ -79,6 +79,7 @@ commitAndPush() {
   done
   metadata="${metadata:-'Forced push!!!'}"
   git add . && git commit -q -m "$(echo -e "$metadata")" && git push -q
+  echo -e "$metadata"
 }
 runClean() {
   local dist=("${@:-dist}")

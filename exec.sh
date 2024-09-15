@@ -1,229 +1,201 @@
 #!/usr/bin/env bash
-
-# Define date format functions
-getFormat() {
+pkgJsonParser() {
+  local p="package.json"
+  local field="${1%%.*}"
+  local subField="${1##*.}"
+  local value pre
+  if which jq >/dev/null 2>&1; then
+    if [ "$field" = "author" ]; then
+      pre=".$field | if type == \"string\" then split(\" \") | "
+      case "$subField" in
+      name) value=$(jq -r "$pre.[0] else .$subField end" "$p") ;;
+      email) value=$(jq -r "$pre.[1] else .$subField end" "$p") ;;
+      url) value=$(jq -r "$pre.[2] else .$subField end" "$p") ;;
+      *) value=$(jq -r ".$field" "$p") ;;
+      esac
+    else
+      value=$(jq -r ".$field" "$p")
+    fi
+  else
+    if [ "$field" = "author" ]; then
+      local authorArray=$(grep "\"$field\":*" "$p" | sed -E "s/.*\"$field\": \"(.*?)\".*/\1/")
+      read -r -a authorValuesArray <<<"${authorArray[*]}"
+      if [ ${#authorValuesArray[@]} -gt 0 ]; then
+        local index
+        case "$subField" in
+        name) index=0 ;;
+        email) index=1 ;;
+        url) index=2 ;;
+        esac
+        value="${authorValuesArray[$index]}"
+      else
+        value=$(grep -A 3 "\"$field\"" "$p" | grep "\"$subField\"" | cut -d'"' -f4)
+      fi
+    else
+      value=$(grep "\"$field\"" "$p" | cut -d'"' -f4)
+    fi
+  fi
+  [ -z "$value" ] && value="Not found" || value="${value//[()<>]/}"
+  echo "$value"
+}
+generateUserScript() {
+  local pkgName=$(pkgJsonParser "name")
+  local pkgVersion=$(pkgJsonParser "version")
+  local pkgDescription=$(pkgJsonParser "description")
+  local authorName=$(pkgJsonParser "author.name")
+  local authorEmail=$(pkgJsonParser "author.email")
+  local authorUrl=$(pkgJsonParser "author.url")
+  local website=$(pkgJsonParser "website")
+  echo "// ==UserScript==
+// @name               $pkgName
+// @namespace          $authorUrl
+// @version            $pkgVersion
+// @description        $pkgDescription
+// @author             $authorName
+// @match              $website*
+// @run-at             document-start
+// ==/UserScript==
+"
+}
+getDateFormat() {
   local base="%H:%M:%S"
   local unformatted="%Y-%m-%d $base"
   local formatted="%a, %b %d, %Y $base"
-  
   case "$1" in
-    b) echo "$base" ;;
-    f) echo "$formatted" ;;
-    u|*) echo "$unformatted" ;;
+  b) echo "$base" ;;
+  f) echo "$formatted" ;;
+  u | *) echo "$unformatted" ;;
   esac
 }
-
-is_mac() { [[ "$OSTYPE" == "darwin"* ]]; }
-
+isMac() { [[ $OSTYPE == "darwin"* ]]; }
 getDateTime() {
   [ "$1" = "m" ] && [ ! -e "$2" ] && return 1
-
-  local opt="${1:-r}"
-  local ui="${2:-now}"
-  local ff="$(getFormat f)"
-  local fu="$(getFormat u)"
-  
-  if is_mac; then
-    case "$opt" in
-      t) date -j -f "$fu" "$ui" +%s ;;
-      f) date -j -f "$fu" "$ui" +"$ff" ;;
-      m) stat -f "%Sm" -t "$fu" "$ui" ;;
-      r|*) date -j -f "$fu" "$ui" +"$fu" ;;
+  local formatOption="${1:-r}"
+  local dateInput="${2:-now}"
+  local formattedFormat="$(getDateFormat f)"
+  local unformattedFormat="$(getDateFormat u)"
+  if isMac; then
+    case "$formatOption" in
+    t) date -j -f "$unformattedFormat" "$dateInput" +%s ;;
+    f) date -j -f "$unformattedFormat" "$dateInput" +"$formattedFormat" ;;
+    m) stat -f "%Sm" -t "$unformattedFormat" "$dateInput" ;;
+    r | *) date -j -f "$unformattedFormat" "$dateInput" +"$unformattedFormat" ;;
     esac
   else
-    case "$opt" in
-      t) date -d "$ui" +%s ;;
-      f) date -d "$ui" +"$ff" ;;
-      m) stat -c %y "$ui" ;;
-      r|*) date -d "$ui" +"$fu" ;;
+    case "$formatOption" in
+    t) date -d "$dateInput" +%s ;;
+    f) date -d "$dateInput" +"$formattedFormat" ;;
+    m) stat -c %y "$dateInput" ;;
+    r | *) date -d "$dateInput" +"$unformattedFormat" ;;
     esac
   fi
-  
-  return $?
 }
-
-# Replace newlines with a space and squeeze repeated spaces
-sanitize_string() {
-  echo "$1" | tr -s '\n ' ' '
+sanitizeAndClean() {
+  local input="$1"
+  local perl_cmd='perl -0777 -pe "
+    s{/\*.*?\*/}{}gs;
+    s/^\s+|\s+$//g;
+    s/\s+/ /g;
+    s/^\s*\n//gm;
+  "'
+  if [ -n "$input" ] && [ -f "$input" ]; then
+    eval "$perl_cmd < \"$input\""
+  elif [ -n "$input" ]; then
+    eval "echo \"$input\" | $perl_cmd"
+  else
+    eval "$perl_cmd"
+  fi
 }
-
-clean_file_contents() {
-  local file="$1"
-  local template="template"
-  local new_filename="${file/iife/user}"
-
-  # Clean JavaScript file, remove comments and empty lines
+cleanFileContents() {
+  local inputFile="$1"
+  local outputFile="${inputFile/iife/user}"
   {
-    cat "$template"
-    sanitize_string "$(perl -0777 -pe 's{/\*.*?\*/}{}gs; s/^\s*\n//gm' < "$file")"
-  } > "$new_filename"
-
-  rm -f "$file" && echo "$new_filename: ready to be published!"
+    generateUserScript
+    sanitizeAndClean "$inputFile"
+  } >"$outputFile"
+  rm -f "$inputFile" && echo "$outputFile: ready to be published!"
 }
-
-# Process directory for matching files
-process_directory() {
-  local dir="$1"
-  find "$dir" -type f -name "*iife.js" -print0 | while IFS= read -r -d '' file; do
-    clean_file_contents "$file"
+processDirectory() {
+  local directory="$1"
+  find "$directory" -type f -name "*iife.js" -print0 | while IFS= read -r -d '' file; do
+    cleanFileContents "$file"
   done
 }
-
-# Run cleaning process on files or directories
 runClean() {
-  local file_paths=("${@:-dist}")
-
-  for path in "${file_paths[@]}"; do
+  local paths=("${@:-dist}")
+  for path in "${paths[@]}"; do
     if [ -f "$path" ]; then
-      clean_file_contents "$path"
+      cleanFileContents "$path"
     elif [ -d "$path" ]; then
-      process_directory "$path"
+      processDirectory "$path"
     else
       echo "Warning: '$path' is not a valid file or directory. Skipping." >&2
     fi
   done
 }
-
-# Run Sass for styling
 runStyle() {
-  local ext="*.scss"
-  if [ -n "$(find . -type f -name "$ext")" ]; then
-    local minify="--style=compressed"
-    [ "$1" = "style:minify" ] || minify=""
-    sass --load-path=node_modules --no-source-map $minify src/scss:src/assets
+  if find ./src -name "*.scss" -newermt "$lastModTimestamp" -print -quit | grep -q .; then
+    local minifyFlag="--style=compressed"
+    [ "$1" = "style:mini" ] || minifyFlag=""
+    sass --load-path=node_modules --no-source-map $minifyFlag src/scss:src/assets
+    echo "Successfully compiled scss files to css!"
   fi
 }
-
-# Update commit message and cache changes
-updateMsg() {
-  touch "$commit_file"
-  
-  local last_checked=$(getFileModDT)
-  local commit_data=$(compareDirectories "-newermt \"$last_checked\"")
-  local commit_msg="${commit_data[0]}"
-  local xCache="${commit_data[1]}"
-
-  if [ -n "$(sanitize_string "$commit_msg")" ]; then
-    echo "$commit_msg" > "$commit_file"
-    git add . && git commit -q -F "$commit_file" > /dev/null
-    createCache "${xCache[@]}"
-  fi
-}
-
-# Find files while excluding certain paths
-findFiles() {
-  local find_cmd="find . -type f"
-  
-  # Exclude directories and files from search
-  find_cmd+=" -not -path './node_modules/*' -not -path './.git/*' -not -path './.cache/*'"
-  find_cmd+=" -not -name '$(basename "$0")' -not -name '$commit_file' -not -name 'package-lock.json'"
-
-  [ -n "$*" ] && find_cmd+=" $*"
-  
-  eval "$find_cmd"
-}
-
-# Compare files in the directory with their cache
-compareDirectories() {
-  [ -d ".cache" ] || createCache
-
-  local files_to_compare
-  IFS=$'\n' read -r -d '' -a files_to_compare < <(findFiles "$@" && printf '\0')
-
-  local msg=""
-  local xList=()
-
-  for file in "${files_to_compare[@]}"; do
-    local rel_path="$(realpath --relative-to="." "$file")"
-    local cache_file=".cache/$rel_path"
-
-    if [ -f "$cache_file" ]; then
-      local diffs
-      diffs=$(diff --suppress-common-lines "$file" \
-        "$cache_file" | sed '/^[0-9].*c[0-9].*/d')
-      [ -z "$diffs" ] || msg+="$file\n$diffs\n" && xList+=("$file")
-    else
-      msg+="$file: not found in cache\n"
+updateCommitMessage() {
+  local modified_files=($(getFiles))
+  local deleted_files=($(getFiles d))
+  local new_files=($(getFiles n))
+  local final_mod_files=()
+  local precedenceList=("${deleted_files[@]}" "${new_files[@]}")
+  local default_length=169
+  local metadata="$(getDateTime f)"'\n\n'
+  for file in "${modified_files[@]}"; do
+    if ! inArray "$file" "${precedenceList[@]}"; then
+      final_mod_files+=("$file")
     fi
   done
-
-  echo -e "$msg"
-}
-
-getFileModDT() {
-  local input="${1:-$commit_file}"
-  
-  # Attempt to get the file modification date
-  local mod_date
-  
-  if [ -f "$input" ]; then
-    mod_date=$(getDateTime m "$input")
-  else
-    mod_date=$(getDateTime t "$input")
-  fi
-  
-  # If the command fails (mod_date is empty or getDateTime returned an error), fallback to the current date
-  if [ $? -ne 0 ] || [ -z "$mod_date" ]; then
-    mod_date=$(getDateTime t)
-  fi
-
-  echo "$mod_date"
-}
-
-# Function to check if a string exists in an array
-xCheck() {
-  [ $# -gt 1 ] || return 1
-  
-  local str="$1"
-  shift
-  local array=("$@")
-  
-  if printf "%s\n" "${array[@]}" | grep -Fxq "$str"; then
-    return 0  # String found
-  else
-    return 1  # String not found
-  fi
-}
-
-# Create or update cache of files
-createCache() {
-  local proj_files=$(findFiles)
-  mkdir -p ".cache"
-
-  local xList=("$@")
-
-  if [ -n "$proj_files" ]; then
-    echo "$proj_files" | while IFS= read -r file; do
-      if xCheck "$file" "${xList[@]}"; then
-        local dir=$(realpath --relative-to="." "$file")
-        local cache_dir="${dir//$(basename "$file")/}"
-        mkdir -p ".cache/$cache_dir" && cp -f "$file" ".cache/$dir"
+  populate() {
+    local title="$1"
+    shift
+    local list=("$@")
+    if [ -n "$list" ]; then
+      metadata+="$title:\n$(printf '\n- %s' "${list[@]}")\n"
+    fi
+  }
+  populate "Modified files" "${final_mod_files[@]}"
+  populate "Deleted files" "${deleted_files[@]}"
+  populate "New files" "${new_files[@]}"
+  for file in "${final_mod_files[@]}"; do
+    local diff_output=$(git diff HEAD~1 -- "$file")
+    if [ -n "$diff_output" ]; then
+      local max_length=$((${#diff_output} * 3 / 4))
+      [ "$max_length" -lt "$default_length" ] || max_length="$default_length"
+      local truncated_diff=$(echo "$diff_output" | head -c "$max_length")
+      if [ "${#diff_output}" -ge "$max_length" ]; then
+        truncated_diff+="..."
       fi
-    done
-  fi
+      metadata+="\nChanges in $file:\n\n$truncated_diff\n"
+    fi
+  done
+  echo -e "$metadata" >"$commitFile"
+  git add .
+  git commit -F "$commitFile"
 }
-
-# Main script logic
-script_name="$(basename "$0")"
-commit_file="COMMIT_MSG"
-
-if [ $# -gt 0 ]; then
-  action=$(sanitize_string "$1")
-  shift
-  processed_args=$(sanitize_string "$*")
-  
-  case "$action" in
-    clean)
-      runClean "$processed_args" && updateMsg
-      ;;
-    style*)
-      runStyle "$processed_args"
-      ;;
-    *)
-      echo "Invalid argument: $action"
-      exit 1
-      ;;
+getFiles() {
+  baseCmd="git diff --name-only"
+  case "$1" in
+  n) baseCmd+=" --diff-filter=A" ;;
+  d) baseCmd+=" --diff-filter=D" ;;
   esac
-else
-  createCache
-fi
+  eval "$baseCmd"
+}
+inArray() {
+  [[ " ${@:2} " =~ " $1 " ]]
+}
+commitFile=".git/COMMIT_EDITMSG"
+[ -f "$commitFile" ] || git init
+case "$npm_lifecycle_event" in
+clean) runClean && updateCommitMessage ;;
+style*) runStyle "$npm_lifecycle_event" ;;
+*) updateCommitMessage ;;
+esac

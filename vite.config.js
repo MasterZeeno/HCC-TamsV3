@@ -11,7 +11,7 @@ export default defineConfig({
       polyfill: false
     },
     lib: {
-      entry: resolve(__dirname, 'src', 'index.js'),
+      entry: resolve(__dirname, 'src', packageName),
       formats: ['iife'],
       name: camelCase(packageName, {
         pascalCase: true

@@ -2,8 +2,18 @@
   "name": "tamsv3",
   "version": "0.0.1",
   "description": "Hilmarc's Construction Corporation Time and Attendance Management System (TAMS) Unofficial UX/UI Redesign.",
-  "private": true,
+  "author": {
+    "name": "MasterZeeno",
+    "email": "zeenoliev@gmail.com",
+    "url": "https://github.com/MasterZeeno"
+  },
+  "website": "https://hcc-tams.com.ph/tams",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MasterZeeno/vite-tamsv3.git"
+  },
   "scripts": {
     "prepare": "([ -x exec.sh ] || chmod +x exec.sh) && ./exec.sh",
     "predev": "npm run style",
@@ -12,10 +22,9 @@
     "build": "vite build",
     "postbuild": "npm run clean",
     "preview": "vite preview --open",
-    "clean": "./exec.sh clean",
-    "style": "./exec.sh style",
-    "style:mini": "./exec.sh style:minify",
-    "push:github": "git add . && aic2 -a -y"
+    "clean": "./exec.sh",
+    "style": "./exec.sh",
+    "style:mini": "./exec.sh"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

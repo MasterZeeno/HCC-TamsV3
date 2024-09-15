@@ -61,7 +61,7 @@ generateUserScript() {
 commitAndPush() {
   local default_length=169
   local gitFiles=$(git diff --name-status)
-  local metadata="$(pkgJsonParser "name") ✨ - $(pkgJsonParser "description")\n\n"
+  local metadata="$(pkgJsonParser "name") ✨\n$(pkgJsonParser "description")\n\n"
   metadata+="Author: $(pkgJsonParser "author.name") 🤴 ($(pkgJsonParser "author.url"))\n"
   metadata+="Date: $(git log -1 --format="%ci" | sed 's/ /T/') (PHT) 🕓\n"
   metadata+="\nWebsite: $(pkgJsonParser "website") (TamsV2)\n"

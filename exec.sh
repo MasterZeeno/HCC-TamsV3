@@ -137,7 +137,7 @@ runStyle() {
   if find ./src -name "*.scss" -newermt "$lastModTimestamp" -print -quit | grep -q .; then
     local minifyFlag="--style=compressed"
     [ "$1" = "style:mini" ] || minifyFlag=""
-    sass --load-path=node_modules --no-source-map $minifyFlag src/scss:src/assets
+    sass --load-path=node_modules --no-source-map -q $minifyFlag src/scss:src/assets
     echo "Successfully compiled scss files to css!"
   fi
 }

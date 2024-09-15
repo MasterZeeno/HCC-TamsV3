@@ -26,6 +26,7 @@ removeElements(document, ["link", "script", "style"])
 
 document.documentElement.setAttribute("data-zee-theme", "dark")
 document.documentElement.setAttribute("style", "background-color: white;")
+document.body.setAttribute("style", "opacity: 0;")
 document.title = title
 
 const logoContainer = document.querySelector(".text-center img")?.parentNode
@@ -48,3 +49,4 @@ style.innerHTML = styles
 document.head.appendChild(style)
 
 import("bootstrap").then(module => module())
+document.body.setAttribute("style", "opacity: 1;")

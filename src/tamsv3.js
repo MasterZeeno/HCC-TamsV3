@@ -3,10 +3,9 @@ import styles from './assets/style.css?raw'
 
 window.addEventListener('load', function() {
   if (document.body) {
-    const originalDisplay = window.getComputedStyle(document.body).display
     document.body.style.display = 'none'
     setTimeout(() => {
-      document.body.style.display = originalDisplay || 'block'
+      document.body.style.display = 'flex'
     }, 600)
   }
 }, false)

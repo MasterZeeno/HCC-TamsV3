@@ -8,7 +8,7 @@ const packageName = packageJson.name.split('/').pop() || packageJson.name
 export default defineConfig({
   build: {
     modulePreload: {
-      polyfill: false
+      polyfill: true
     },
     lib: {
       entry: resolve(__dirname, 'src', packageName),

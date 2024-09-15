@@ -180,6 +180,7 @@ updateCommitMessage() {
   # echo -e "$metadata" >"$commitFile"
   git add .
   git commit -q -m "$metadata"
+  git push
 }
 getFiles() {
   baseCmd="git diff --name-only"
@@ -197,5 +198,6 @@ inArray() {
 case "$npm_lifecycle_event" in
 clean) runClean && updateCommitMessage ;;
 style*) runStyle "$npm_lifecycle_event" ;;
+zee) runStyle && vite build && runClean && updateCommitMessage ;;
 *) updateCommitMessage ;;
 esac

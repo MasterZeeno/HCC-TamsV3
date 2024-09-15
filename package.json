@@ -1,5 +1,5 @@
 {
-  "name": "tamsv3",
+  "name": "HCC-TamsV3",
   "version": "v0.0.2",
   "description": "Hilmarc's Construction Corporation Time and Attendance Management System (TAMS) Unofficial UX/UI Redesign.",
   "author": {
@@ -14,22 +14,15 @@
     "type": "git",
     "url": "git://github.com/MasterZeeno/vite-tamsv3.git"
   },
-  "main": "./bin/zee.js",
-  "bin": {
-    "zee": "./bin/zee.js"
-  },
+  "main": "./dist/hcc-tamsv3.user.js",
   "files": [
-    "bin",
     "dist",
     "src"
   ],
   "scripts": {
-    "prepare": "node ./bin/zee.js prep",
     "dev": "vite --open",
     "build": "vite build",
-    "preview": "vite preview --open",
-    "push:g": "node ./bin/zee.js push:g",
-    "push:n": "node ./bin/zee.js push:n"
+    "preview": "vite preview --open"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

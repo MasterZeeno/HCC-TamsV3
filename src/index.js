@@ -1,5 +1,5 @@
-import logo from './assets/logo.svg?raw'
-import styles from './assets/style.css?raw'
+import logo from '+/logo.svg?raw'
+import styles from '+/style.css?raw'
 
 const title = "TamsV3";
 

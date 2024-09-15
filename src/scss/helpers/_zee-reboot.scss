@@ -78,8 +78,8 @@ body {
   background-image: var(--#{$prefix}translucent-gradient-webkit);
   background-position: center;
   background-size: 100%;
-  will-change: display;
-  transition: display 0.5s;
+  will-change: opacity;
+  transition: opacity 0.5s;
 }
 
 // Content grouping

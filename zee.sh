@@ -62,28 +62,19 @@ commitAndPush() {
   local modFiles=()
   local default_length=169
   local gitFiles=$(git diff --name-status)
-  local metadata="$(git log -1 --format="%ci" | sed 's/ /T/')\n\n"
+  local metadata="Repository updates ✨\n\n"
+  metadata+="Commit by:\t$(pkgJsonParser "name")\n"
+  metadata+="Date:\t$(git log -1 --format="%ci" | sed 's/ /T/')\n\n"
   populate() {
     local str="$1"
     local -a fileList=$(echo "$gitFiles" | grep "^${str:0:1}" | cut -f2)
     [ "${str:0:1}" = "M" ] && modFiles=("${fileList[@]}")
-    metadata+="$str:\n$(printf '\n- %s' "${fileList[@]}")\n"
+    [ -z "${fileList[@]}" ] || metadata+="$str:\n$(printf '\n- %s' "${fileList[@]}")\n"
   }
   for list in "Modified files" "Deleted files" "New files"; do
     populate "$list"
   done
-  for file in "${modFiles[@]}"; do
-    local diff_output=$(git diff HEAD~1 -- "$file")
-    if [ -n "$diff_output" ]; then
-      local max_length=$((${#diff_output} * 3 / 4))
-      [ "$max_length" -lt "$default_length" ] || max_length="$default_length"
-      local truncated_diff=$(echo "$diff_output" | head -c "$max_length")
-      if [ "${#diff_output}" -ge "$max_length" ]; then
-        truncated_diff+="..."
-      fi
-      metadata+="\nChanges in $file:\n\n$truncated_diff\n"
-    fi
-  done
+  metadata="${metadata:-'Forced push!!!'}"
   git add . && git commit -q -m "$(echo -e "$metadata")" && git push -q
 }
 runClean() {

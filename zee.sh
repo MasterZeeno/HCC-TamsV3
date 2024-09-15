@@ -62,8 +62,8 @@ commitAndPush() {
   local default_length=169
   local gitFiles=$(git diff --name-status)
   local metadata="Repository updates ✨\n\n"
-  metadata+="Commit by:\t$(pkgJsonParser "author.name") 🤴\n"
-  metadata+="Date:\t$(git log -1 --format="%ci" | sed 's/ /T/')\n"
+  metadata+="Signed of by: $(pkgJsonParser "author.name") 🤴\n"
+  metadata+="Date comitted: $(git log -1 --format="%ci" | sed 's/ /T/') GMT\n"
   populate() {
     local str="$1"
     local -a fileList=$(echo "$gitFiles" | grep "^${str:0:1}" | cut -f2)

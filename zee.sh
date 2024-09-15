@@ -62,7 +62,7 @@ commitAndPush() {
   local modFiles=()
   local default_length=169
   local gitFiles=$(git diff --name-status)
-  local metadata="$(getDateTime f)"'\n\n'
+  local metadata="$(git log -1 --format="%ci" | sed 's/ /T/')\n\n"
   populate() {
     local str="$1"
     local -a fileList=$(echo "$gitFiles" | grep "^${str:0:1}" | cut -f2)

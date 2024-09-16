@@ -1,6 +1,6 @@
 {
   "name": "HCC-TamsV3",
-  "version": "v0.0.2",
+  "version": "0.0.2",
   "description": "A TamperMonkey Userscript to change TamsV2's boring UI. 🥱",
   "author": {
     "name": "MasterZeeno",
@@ -22,19 +22,21 @@
   "scripts": {
     "prepare": "husky",
     "dev": "vite --open",
-    "prebuild": "./zee.sh style:m",
     "build": "vite build",
-    "postbuild": "./zee.sh push",
     "preview": "vite preview --open"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
+    "@npmcli/package-json": "^5.2.0",
     "bootstrap": "^5.3.3",
     "camelcase": "^8.0.0",
     "husky": "^9.1.6",
+    "install": "^0.13.0",
+    "npm": "^10.8.3",
     "sass": "^1.78.0",
     "semantic-release": "^24.1.1",
+    "terser": "^5.32.0",
     "vite": "^5.4.1"
   }
 }

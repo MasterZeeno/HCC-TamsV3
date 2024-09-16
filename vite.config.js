@@ -4,8 +4,6 @@ import camelCase from 'camelcase'
 import packageJson from './package.json'
 
 const packageName = packageJson.name.split('/').pop() || packageJson.name
-const srcFolder = resolve(__dirname, 'src')
-const assetsFolder = resolve(srcFolder, 'assets')
 
 export default defineConfig({
   build: {
@@ -13,7 +11,7 @@ export default defineConfig({
       polyfill: true
     },
     lib: {
-      entry: resolve(srcFolder, 'index.js'),
+      entry: resolve(__dirname, 'src', 'index.js'),
       formats: ['iife'],
       name: camelCase(packageName, {
         pascalCase: true
@@ -22,10 +20,18 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 999
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+        additionalData: `$prefix: zee-;`
+      }
+    },
+    preprocessorMaxWorkers: true
+  },
   resolve: {
     alias: {
-      '@': srcFolder,
-      '+': assetsFolder
+      '@': resolve(__dirname, 'src')
     }
   }
 })

@@ -20,15 +20,6 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 999
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-        additionalData: `$prefix: zee-;`
-      }
-    },
-    preprocessorMaxWorkers: true
-  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')

@@ -1,5 +1,5 @@
 import logo from './assets/logo.svg?raw'
-import './scss/style.scss'
+import styles from './assets/style.css?raw'
 
 const title = "TamsV3";
 
@@ -12,11 +12,11 @@ const updateElement = (selector, content, attribute = "innerHTML") => {
 };
 
 // Helper function to add inline styles
-// const addStyleToHead = (styleContent) => {
-  // const style = document.createElement("style");
-  // style.innerHTML = styleContent;
-  // document.head.appendChild(style);
-// };
+const addStyleToHead = (styleContent) => {
+  const style = document.createElement("style");
+  style.innerHTML = styleContent;
+  document.head.appendChild(style);
+};
 
 // Function to stop loading of specific <link> and <script> tags
 const stopLoadingTags = (selector = [], retryInterval = 300) => {
@@ -73,7 +73,7 @@ updateElement(".login-logo a", title);
 updateElement('input[name="username"]', "ID Number", "placeholder");
 
 // Inject styles into the document head
-// addStyleToHead(styles);
+addStyleToHead(styles);
 // Remove unnecessary elements
 removeElements(document, ["p.login-box-msg", "span.glyphicon"]);
 

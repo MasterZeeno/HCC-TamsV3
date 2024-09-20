@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2rem 1.69rem;
   text-align: center;
   background-color: rgba(var(--#{$prefix}secondary-color-rgb), 0.069) !important;
   box-shadow: var(--#{$prefix}box-shadow) !important;
@@ -20,6 +20,9 @@ div.login-box div.text-center {
 
 #logo {
   filter: var(--#{$prefix}drop-shadow-filter);
+}
+
+#logo path {
   shape-rendering: geometricPrecision;
 }
 
@@ -31,6 +34,7 @@ input {
 input {
   margin: 0.32rem auto !important;
   padding: 0.69rem 1.32rem !important;
+  width: 69%;
 }
 
 button {

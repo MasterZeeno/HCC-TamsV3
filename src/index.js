@@ -28,7 +28,7 @@ const stopLoadingTags = (selector = [], retryInterval = 300) => {
         el.href = ''; // Prevent stylesheet loading
         el.disabled = true; // Disable stylesheet
         el.remove(); // Remove from DOM
-      } else if (el.tagName === 'SCRIPT' && el.id !== "important") {
+      } else if (el.tagName === 'SCRIPT') {
         el.src = ''; // Prevent script loading
         el.type = 'javascript/blocked'; // Set invalid MIME type
         el.remove(); // Remove from DOM
@@ -49,7 +49,7 @@ const removeElements = (parent, selector = []) => {
 
   const selectorString = Array.isArray(selector) ? selector.join(",") : '';
   parent.querySelectorAll(selectorString).forEach((el) => {
-    if (el !== parent && el.id !== "important") {
+    if (el !== parent) {
       try {
         el.remove();
       } catch (err) {
@@ -61,21 +61,23 @@ const removeElements = (parent, selector = []) => {
 
 // Load event handler for DOM modifications
 window.addEventListener('load', () => {
-  stopLoadingTags(["link", "script"]);
+  if (document.body) {
+    stopLoadingTags(["link", "script"]); // Stop <link> and <script> loading
+    // Remove unnecessary elements
+    removeElements(document, ["p.login-box-msg", "span.glyphicon"]);
+
+    document.documentElement.setAttribute("data-zee-theme", "dark");
+    document.title = title;
+
+    // Update content of specific elements
+    updateElement(".text-center", logo, "innerHTML");
+    updateElement(".login-logo a", title);
+    updateElement('input[name="username"]', "ID Number", "placeholder");
+
+    // Inject styles into the document head
+    addStyleToHead(styles);
+  }
 }, false);
-
-document.documentElement.setAttribute("data-zee-theme", "dark");
-document.title = title;
-
-// Update content of specific elements
-updateElement(".text-center", logo, "innerHTML");
-updateElement(".login-logo a", title);
-updateElement('input[name="username"]', "ID Number", "placeholder");
-
-// Inject styles into the document head
-addStyleToHead(styles);
-// Remove unnecessary elements
-removeElements(document, ["p.login-box-msg", "span.glyphicon"]);
 
 // Dynamically import Bootstrap and execute
 import("bootstrap").then(module => {

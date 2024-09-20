@@ -3,6 +3,8 @@
 node_modules
 package-lock.json
 src
+scripts
 .cache
 vite.config.js
 .npmrc
+.pkginfo

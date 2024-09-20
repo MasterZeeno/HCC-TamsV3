@@ -7,9 +7,6 @@ const packageName = packageJson.name.split('/').pop() || packageJson.name
 
 export default defineConfig({
   build: {
-    modulePreload: {
-      polyfill: true
-    },
     lib: {
       entry: resolve(__dirname, 'src', 'index.js'),
       formats: ['iife'],
@@ -26,3 +23,5 @@ export default defineConfig({
     }
   }
 })
+
+// fileName: (format) => `${packageName}.user.js`

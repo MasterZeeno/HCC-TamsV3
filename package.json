@@ -1,6 +1,6 @@
 {
-  "name": "TamsV3",
-  "version": "v0.0.5",
+  "name": "tams-v3",
+  "version": "v1.0.1",
   "description": "A TamperMonkey Userscript to change TamsV2's boring UI. 🥱",
   "author": {
     "name": "MasterZeeno",

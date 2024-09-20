@@ -22,12 +22,11 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
-    "preview": "vite preview --open",
     "prepare": "zeeno",
     "predev": "zeeno style",
     "prebuild": "zeeno style:m",
     "postbuild": "zeeno clean",
-    "prepublish": "zeeno push"
+    "push": "zeeno push"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",

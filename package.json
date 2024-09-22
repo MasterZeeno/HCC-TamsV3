@@ -1,6 +1,6 @@
 {
   "name": "tams-v3",
-  "version": "v1.0.4",
+  "version": "1.0.5",
   "description": "A TamperMonkey Userscript to change TamsV2's boring UI. 🥱",
   "author": {
     "name": "MasterZeeno",
@@ -27,15 +27,15 @@
     "prebuild": "zeeno style:m",
     "postbuild": "zeeno clean",
     "push": "zeeno push",
-    "postpush": "npm publish",
+    "postpush": "npm pkg fix && npm publish",
     "style": "zeeno style",
-    "style:force": "zeeno style:f"
+    "style:force": "zeeno style:f",
+    "collect": "zeeno collect"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",
     "camelcase": "^8.0.0",
     "sass": "^1.78.0",
-    "terser": "^5.33.0",
     "vite": "^5.4.1"
   }
 }

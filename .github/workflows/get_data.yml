@@ -1,0 +1,55 @@
+name: Get TamsV2 data
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          sdk-version: '30.0.3'
+
+      - name: Create and Start Emulator
+        run: |
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --force
+          emulator -avd test -no-snapshot -no-audio -no-window &
+          adb wait-for-device
+          adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+
+      - name: Install Termux
+        run: |
+          adb install termux.apk
+
+      - name: Wait for Termux to Launch
+        run: sleep 10  # Adjust as needed
+
+      - name: Push Script to Emulator
+        run: |
+          adb push scrapper.py /data/local/tmp/scrapper.py
+
+      - name: Run Your Script in Termux
+        run: |
+          adb shell << EOF
+          su
+          termux-setup-storage <<< y
+          pkg update -y
+          pkg upgrade -y
+          pkg install python -y
+          pkg install python-pip -y
+          pkg install x11-repo -y
+          pkg install tur-repo -y
+          pkg install chromium -y
+          pkg install jq -y
+          pip install selenium==4.9.1
+          pip install python-dotenv
+          pip install requests
+          python /data/local/tmp/scrapper.py
+          EOF

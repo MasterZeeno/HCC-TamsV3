@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                tams-v3
 // @namespace          https://github.com/MasterZeeno
-// @version              1.0.7
+// @version              1.0.8
 // @description          A TamperMonkey Userscript to change TamsV2's boring UI. 🥱
 // @author              MasterZeeno
 // @match              https://hcc-tams.com.ph/tams*

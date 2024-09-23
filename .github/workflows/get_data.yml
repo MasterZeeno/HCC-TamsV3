@@ -9,55 +9,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Up Android SDK
-        uses: android-actions/setup-android@v2
+      # 2. Set Up Docker Buildx (optional for advanced caching)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # 3. Cache Docker layers (optional)
+      - name: Cache Docker layers
+        uses: actions/cache@v3
         with:
-          sdk-version: '30.0.3'
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
-      - name: Accept Android SDK Licenses
-        run: yes | sdkmanager --licenses
-
-      - name: Install Required System Image
+      # 4. Build Docker Image
+      - name: Build Docker Image
         run: |
-          sdkmanager "system-images;android-30;google_apis;x86"
+          docker build --build-arg USERNAME=${{ secrets.USERNAME }} \
+          --build-arg PASSWORD=${{ secrets.PASSWORD }} \
+          --build-arg TAMS_BASE_URL=${{ secrets.TAMS_BASE_URL }} \
+          --build-arg CHROME_DRIVER_PATH=${{ secrets.CHROME_DRIVER_PATH }} \
+          -t data_scrapper .
 
-      - name: Verify System Image Installation
-        run: sdkmanager --list | grep "system-images;android-30;google_apis;x86"
-
-      - name: Create and Start Emulator
+      # 5. Run Docker Container with Environment Variables
+      - name: Run Docker Container
         run: |
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86" --force
-          # Start the emulator in the background
-          nohup emulator -avd test -no-snapshot -no-audio -no-window &
+          docker run --rm \
+            --shm-size=2g \
+            -e USERNAME=${{ secrets.USERNAME }} \
+            -e PASSWORD=${{ secrets.PASSWORD }} \
+            -e TAMS_BASE_URL=${{ secrets.TAMS_BASE_URL }} \
+            -e CHROME_DRIVER_PATH=${{ secrets.CHROME_DRIVER_PATH }} \
+            -v ${{ github.workspace }}/src/assets:/app/src/assets \
+            data_scrapper sh -c 'set -e; python3 /app/scrapper.py'
 
-          # Wait for the emulator to boot
-          adb wait-for-device
 
-          # Additional wait to ensure boot completion
-          adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-
-          # Unlock the emulator screen
-          adb shell input keyevent 82
-
-      - name: Download Termux APK
-        run: |
-          wget https://github.com/termux/termux-app/releases/download/v0.118.1/termux-app_v0.118.1+github-debug_x86.apk -O termux.apk
-
-      - name: Install Termux
-        run: |
-          adb install termux.apk
-
-      - name: Push Scripts to Emulator
-        run: |
-          adb push scrapper.py /data/local/tmp/scrapper.py
-          adb push setup.sh /data/local/tmp/setup.sh
-          adb shell chmod +x /data/local/tmp/setup.sh
-
-      - name: Execute Setup Script in Termux
-        run: |
-          adb shell am start -n com.termux/.HomeActivity \
-            -a com.termux.RUN_COMMAND \
-            -e command "bash /data/local/tmp/setup.sh"
+      # 6. Upload Output Artifacts
+      - name: Upload Output Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: scraper-output
+          path: src/assets/

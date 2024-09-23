@@ -367,6 +367,24 @@
       "lunch_in": "12:45 PM",
       "pm_out": "5:05 PM",
       "ot_in": "5:34 PM",
+      "ot_out": "8:01 PM"
+    },
+    {
+      "date": "2024-09-21, Saturday",
+      "am_in": "7:50 AM",
+      "lunch_out": "10:07 AM",
+      "lunch_in": "--",
+      "pm_out": "--",
+      "ot_in": "--",
+      "ot_out": "--"
+    },
+    {
+      "date": "2024-09-23, Monday",
+      "am_in": "6:29 AM",
+      "lunch_out": "--",
+      "lunch_in": "--",
+      "pm_out": "--",
+      "ot_in": "--",
       "ot_out": "--"
     }
   ],
